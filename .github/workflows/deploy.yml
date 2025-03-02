@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.FTP_USER_OVH }}
           password: ${{ secrets.FTP_PASSWORD_OVH }}
           local-dir: ./ # The folder containing your built project
-          server-dir: /www/goldbetio.com/ # The directory on the server where you want to upload the dist folder
+          server-dir: /www/goldbetio.com/ # The directory on the server where you want to upload the dist folder 1
 
       # goldbet.wiki
 
