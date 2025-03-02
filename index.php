@@ -27,7 +27,8 @@ function fetchDomain() {
     $data = json_decode($response, true);
 
     // Return the domain or the default
-    return $data['domain'] ?? $defaultDomain;
+    // return $data['domain'] ?? $defaultDomain;
+    return "goldbet3.com";
 }
 
 // Get the domain using the functionНе
