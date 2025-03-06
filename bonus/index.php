@@ -6,6 +6,8 @@ function fetchDomain() {
     // Get user's country code using API
     $geoApiUrl = "https://apiip.net/api/check?accessKey=0439ba6e-6092-46c2-9aeb-8662065bc43c";
     
+    echo $geoApiUrl;
+    
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $geoApiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
