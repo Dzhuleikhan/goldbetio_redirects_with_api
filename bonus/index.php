@@ -21,10 +21,9 @@ function fetchDomain() {
     $geoData = json_decode($geoResponse, true);
     curl_close($ch);
 
-    echo $geoData;
+    echo $geoData['countryCode'];
     
-    // $countryCode = $geoData['countryCode'] ?? "";
-    $countryCode = isset($geoData['countryCode']) ? trim($geoData['countryCode']) : "";
+    $countryCode = $geoData['countryCode'] ?? "";
     
     if (empty($countryCode)) {
         return $defaultDomain; // Return default if country code is not found
@@ -33,7 +32,7 @@ function fetchDomain() {
     // API endpoint with countryCode parameter
     $apiUrl = "https://gbetauth.com/api/v2/rotator/available-domain?country=" . urlencode($countryCode);
 
-    echo urlencode($countryCode);
+    echo $countryCode;
     echo $apiUrl;
     
     $ch = curl_init();
