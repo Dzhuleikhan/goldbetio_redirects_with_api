@@ -20,10 +20,10 @@ function fetchDomain() {
         return $defaultDomain; // Return default on error
     }
     
-    $geoData = json_decode($geoResponse, true);
+    $geoData1 = json_decode($geoResponse, true);
     curl_close($ch);
     
-    $countryCode = $geoData['countryCode'] ?? "";
+    $countryCode = $geoData1['countryCode'] ?? "";
     
     if (empty($countryCode)) {
         return $defaultDomain; // Return default if country code is not found
