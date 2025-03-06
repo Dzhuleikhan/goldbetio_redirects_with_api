@@ -17,8 +17,6 @@ function fetchDomain() {
     ]);
     
     $geoResponse = curl_exec($ch);
-
-    echo $geoResponse;
     
     if (curl_errno($ch)) {
         curl_close($ch);
@@ -60,6 +58,7 @@ function fetchDomain() {
 
 // Example usage
 $domain = fetchDomain();
+echo $domain;
 
 // Define the base URL dynamically using the fetched domain
 $base_url = 'https://' . $domain . '/bonuses/';
