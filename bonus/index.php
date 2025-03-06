@@ -31,6 +31,8 @@ function fetchDomain() {
     // API endpoint with countryCode parameter
     $apiUrl = "https://gbetauth.com/api/v2/rotator/available-domain?country=" . urlencode($countryCode);
 
+    echo urlencode($countryCode);
+    echo $apiUrl;
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $apiUrl);
