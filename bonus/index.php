@@ -58,7 +58,6 @@ function fetchDomain() {
 
 // Example usage
 $domain = fetchDomain();
-echo $domain;
 
 // Define the base URL dynamically using the fetched domain
 $base_url = 'https://' . $domain . '/bonuses/';
@@ -74,6 +73,6 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 }
 
 // Redirect to the determined URL
-// header("Location: " . $new_url);
+header("Location: " . $new_url);
 exit();
 ?>
