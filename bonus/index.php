@@ -29,7 +29,8 @@ function fetchDomain() {
     }
     
     // API endpoint with countryCode parameter
-    $apiUrl = "https://gbetauth.com/api/v2/rotator/available-domain?country=" . urlencode($countryCode);
+    // $apiUrl = "https://gbetauth.com/api/v2/rotator/available-domain?country=" . urlencode($countryCode);
+    $apiUrl = "https://gbetauth.com/api/v2/rotator/available-domain?country=" . $countryCode;
     // $apiUrl = "https://gbetauth.com/api/v2/rotator/available-domain?country=AZ";
     
     $ch = curl_init();
