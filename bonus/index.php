@@ -6,10 +6,15 @@ function fetchDomain() {
     // Get user's country code using API
     $geoApiUrl = "https://apiip.net/api/check?accessKey=0439ba6e-6092-46c2-9aeb-8662065bc43c";
     
+    $clientIp = $_SERVER['REMOTE_ADDR'] ?? ''; // Get real client IP
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $geoApiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "X-Forwarded-For: $clientIp"
+    ]);
     
     $geoResponse = curl_exec($ch);
 
@@ -20,10 +25,10 @@ function fetchDomain() {
         return $defaultDomain; // Return default on error
     }
     
-    $geoData1 = json_decode($geoResponse, true);
+    $geoData = json_decode($geoResponse, true);
     curl_close($ch);
     
-    $countryCode = $geoData1['countryCode'] ?? "";
+    $countryCode = $geoData['countryCode'] ?? "";
     
     if (empty($countryCode)) {
         return $defaultDomain; // Return default if country code is not found
