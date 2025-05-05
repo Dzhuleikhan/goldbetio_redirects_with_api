@@ -44,7 +44,7 @@ function fetchDomain() {
     
     if (curl_errno($ch)) {
         curl_close($ch);
-        return $defaultDomain; // Return default on error
+        return $defaultDomain; // Return default on error /
     }
     
     curl_close($ch);
