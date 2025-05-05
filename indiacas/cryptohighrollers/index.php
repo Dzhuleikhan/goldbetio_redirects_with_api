@@ -66,7 +66,7 @@ $base_url = 'https://' . $domain . '/?promocode=CRYPTOHIGH200&modal=auth&method=
 if (isset($_GET['cid']) && !empty($_GET['cid'])) {
     // If 'cid' is present, append it to the URL
     $cid = $_GET['cid'];
-    $new_url = $base_url . "&cid=" . urlencode($cid); // Note: '?' added instead of '&' for a valid query string
+    $new_url = $base_url . "&cid=" . urlencode($cid); // Note: '?' added instead of '&' for a valid query string /
 } else {
     // If 'cid' is not present, use the base URL
     $new_url = $base_url;
