@@ -60,7 +60,7 @@ function fetchDomain() {
 $domain = fetchDomain();
 
 // Define the base URL dynamically using the fetched domain
-$base_url = 'https://' . $domain . '/?modal=auth&method=email&mode=sign-up';
+$base_url = 'https://' . $domain . '/?promocode=CRYPTOHIGH200&modal=auth&method=email&mode=sign-up';
 
 // Check if 'cid' parameter is present
 if (isset($_GET['cid']) && !empty($_GET['cid'])) {
