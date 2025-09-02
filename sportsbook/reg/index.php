@@ -63,17 +63,22 @@ $domain = fetchDomain();
 // $base_url = 'https://' . $domain . '/sport/live?modal=auth&method=email&mode=sign-up';
 $base_url = 'https://' . $domain . '/?modal=auth&method=email&mode=sign-up';
 
-// Check if 'cid' parameter is present
+// Collect parameters if they exist
+$params = [];
 if (isset($_GET['cid']) && !empty($_GET['cid'])) {
-    // If 'cid' is present, append it to the URL
-    $cid = $_GET['cid'];
-    $new_url = $base_url . "&cid=" . urlencode($cid); // Note: '?' added instead of '&' for a valid query string
-} else {
-    // If 'cid' is not present, use the base URL
-    $new_url = $base_url;
+    $params['cid'] = $_GET['cid'];
+}
+if (isset($_GET['partner']) && !empty($_GET['partner'])) {
+    $params['partner'] = $_GET['partner'];
+}
+if (isset($_GET['offer']) && !empty($_GET['offer'])) {
+    $params['offer'] = $_GET['offer'];
 }
 
+// Build the query string if there are any parameters
+$queryString = !empty($params) ? '?' . http_build_query($params) : '';
+
 // Redirect to the determined URL
-header("Location: " . $new_url);
+header("Location: " . $base_url . $queryString);
 exit();
 ?>
