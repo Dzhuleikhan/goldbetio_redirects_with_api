@@ -36,5 +36,5 @@ jobs:
           server: ${{ secrets[format('FTP_HOST_{0}', matrix.vps)] }}
           username: ${{ secrets[format('FTP_USER_{0}', matrix.vps)] }}
           password: ${{ secrets[format('FTP_PASSWORD_{0}', matrix.vps)] }}
-          local-dir: ./dist/
+          local-dir: ./
           server-dir: /www/${{ matrix.site }}/
