@@ -75,7 +75,7 @@ if (isset($_GET['offer']) && !empty($_GET['offer'])) {
 }
 
 // Build the query string if there are any parameters
-$queryString = !empty($params) ? '?' . http_build_query($params) : '';
+$queryString = !empty($params) ? '&' . http_build_query($params) : '';
 
 // Redirect to the determined URL
 header("Location: " . $base_url . $queryString);
