@@ -1,59 +1,58 @@
 <?php
+// Calls a same-origin nginx endpoint and returns decoded JSON, or null on failure.
+function apiGet($path) {
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+
+    if ($host === '') {
+        return null;
+    }
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://' . $host . $path);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+
+    $body = curl_exec($ch);
+    $errno = curl_errno($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($errno || $status < 200 || $status >= 300) {
+        return null;
+    }
+
+    $data = json_decode($body, true);
+
+    return is_array($data) ? $data : null;
+}
+
 // Function to fetch domain
 function fetchDomain() {
-    $defaultDomain = "goldbet4.com"; // Fallback domain
-
-    // Get user's country code using API
-    $geoApiUrl = "https://apiip.net/api/check?accessKey=0439ba6e-6092-46c2-9aeb-8662065bc43c";
+    $defaultDomain = "g01d63t1.win"; // Fallback domain
 
     $clientIp = $_SERVER['REMOTE_ADDR'] ?? ''; // Get real client IP
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $geoApiUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "X-Forwarded-For: $clientIp"
-    ]);
-
-    $geoResponse = curl_exec($ch);
-
-    if (curl_errno($ch)) {
-        curl_close($ch);
-        return $defaultDomain; // Return default on error
+    // Geo lookup goes through the same-origin nginx proxy. The request originates
+    // from the server itself, so the visitor's IP has to be passed explicitly.
+    $geoPath = "/geo-api/api/check?accessKey=0439ba6e-6092-46c2-9aeb-8662065bc43c";
+    if ($clientIp !== '') {
+        $geoPath .= "&ip=" . urlencode($clientIp);
     }
 
-    $geoData = json_decode($geoResponse, true);
-    curl_close($ch);
-
+    $geoData = apiGet($geoPath);
     $countryCode = $geoData['countryCode'] ?? "";
 
     if (empty($countryCode)) {
         return $defaultDomain; // Return default if country code is not found
     }
 
-    // API endpoint with countryCode parameter
-    $apiUrl = "https://gbetauth.com/api/v2/rotator/available-domain?country=" . urlencode($countryCode);
+    // Rotator through the same-origin nginx proxy — nginx injects the API key
+    $data = apiGet("/api/domain/available?country=" . urlencode($countryCode));
+    $domains = $data['domains'] ?? array();
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $apiUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
-    $response = curl_exec($ch);
-
-    if (curl_errno($ch)) {
-        curl_close($ch);
-        return $defaultDomain; // Return default on error
-    }
-
-    curl_close($ch);
-
-    // Decode JSON response
-    $data = json_decode($response, true);
-
-    // Return the domain or the default
-    return $data['domain'] ?? $defaultDomain;
+    // Return the first available domain or the default
+    return (is_array($domains) && !empty($domains[0])) ? $domains[0] : $defaultDomain;
 }
 
 // Example usage
